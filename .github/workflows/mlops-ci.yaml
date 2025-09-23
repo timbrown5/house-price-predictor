@@ -57,6 +57,7 @@ jobs:
 
       - name: Clean MLFlow container
         run: |
+          docker ps
           docker stop mlflow-server
           docker rm mlflow-server
 
