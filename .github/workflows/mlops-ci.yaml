@@ -36,6 +36,13 @@ jobs:
             --output data/processed/featured_house_data.csv \
             --preprocessor models/trained/preprocessor.pkl \
           
+      - name: Start MLFLow
+        run: |
+          docker run --rm -d -p 5555:5555 ghcr.io/mlflow/mlflow:latest \
+            mlflow server --host 0.0.0.0 \
+            --backend-store-uri sqlite:///mlflow.db \
+            --default-artifact-root /tmp/mlruns
+
       - name: Train model
         run: |
           python src/models/train_model.py \
