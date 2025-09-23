@@ -38,7 +38,7 @@ jobs:
           
       - name: Start MLFLow
         run: |
-          docker run --rm -d -p 5555:5555 ghcr.io/mlflow/mlflow:latest \
+          docker run --rm -d -p 5555:5555 --name mlflow-server ghcr.io/mlflow/mlflow:latest \
             mlflow server --host 0.0.0.0 \
             --backend-store-uri sqlite:///mlflow.db \
             --default-artifact-root /tmp/mlruns
@@ -50,4 +50,10 @@ jobs:
             --data data/processed/featured_house_data.csv \
             --models-dir models/
             --mlflow-tracking-uri http://localhost:5555
+
+      - name: Start MLFLow
+        run: |
+          docker stop mlflow-server
+          docker rm mlflow-server
+
           
