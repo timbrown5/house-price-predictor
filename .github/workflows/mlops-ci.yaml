@@ -5,6 +5,10 @@ on:
     branches: ["main"]
   pull_request:
     branches: ["main"]
+p
+
+env:
+  
 
 jobs:
   build:
@@ -43,6 +47,8 @@ jobs:
             mlflow server --host 0.0.0.0 \
             --backend-store-uri sqlite:///mlflow.db \
             --default-artifact-root /tmp/mlruns
+          sleep 10
+          docker log mlflow-server
 
       - name: Train model
         run: |
@@ -70,6 +76,8 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: user/app:latest
+          tags: timbrown5/fastapi:${{ github.sha }}
+          context: "."
+          file: Dockerfile
 
           
