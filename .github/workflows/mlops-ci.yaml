@@ -45,7 +45,7 @@ jobs:
             --backend-store-uri sqlite:///mlflow.db \
             --default-artifact-root /tmp/mlruns
           sleep 10
-          docker log mlflow-server
+          docker logs mlflow-server
 
       - name: Train model
         run: |
