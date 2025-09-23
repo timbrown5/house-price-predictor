@@ -38,6 +38,7 @@ jobs:
           
       - name: Start MLFLow
         run: |
+          docker pull ghcr.io/mlflow/mlflow:latest
           docker run --rm -d -p 5555:5555 --name mlflow-server ghcr.io/mlflow/mlflow:latest \
             mlflow server --host 0.0.0.0 \
             --backend-store-uri sqlite:///mlflow.db \
@@ -51,9 +52,24 @@ jobs:
             --models-dir models/ \
             --mlflow-tracking-uri http://localhost:5555
 
-      - name: Start MLFLow
+      - name: Clean MLFlow container
         run: |
           docker stop mlflow-server
           docker rm mlflow-server
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: user/app:latest
 
           
