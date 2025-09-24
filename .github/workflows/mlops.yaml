@@ -29,6 +29,7 @@ on:
 
 jobs:
   data_processing:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
