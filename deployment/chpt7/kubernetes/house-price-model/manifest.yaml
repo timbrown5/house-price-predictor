@@ -54,3 +54,24 @@ spec:
   type: NodePort
 status:
   loadBalancer: {}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    #serviceMonitorSelector: prometheus
+    release: prom
+  name: house-price-model-monitor
+  namespace: house-price-model
+spec:
+  endpoints:
+  - interval: 15s
+    targetPort: 8000
+    path: /metrics
+  namespaceSelector:
+    matchNames:
+    - house-price-model
+  selector:
+    matchLabels:
+      app: house-price-model
+      # operated-prometheus: "true"
