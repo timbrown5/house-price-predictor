@@ -166,8 +166,9 @@ jobs:
       - name: Build and test Docker image
         run: |
           COMMIT_HASH=$(echo ${{ github.sha }} | cut -c1-7)
-          docker build -t "docker.io/${{ vars.DOCKERHUB_USERNAME }}/house-price-model:$COMMIT_HASH" -f Dockerfile .
-          docker run -d -p 8000:8000 --name test-api docker.io/%{{ vars.DOCKERHUB_USERNAME }}/house-price-model:$COMMIT_HASH
+          IMAGE_NAME="docker.io/${{ vars.DOCKERHUB_USERNAME }}/house-price-model:$COMMIT_HASH" 
+          docker build "${IMAGE_NAME}" -t -f Dockerfile .
+          docker run -d -p 8000:8000 --name test-api "${IMAGE_NAME}" 
           for i in {1..10}; do
             curl -f http://localhost:8000/health && break || sleep 5;
           done
