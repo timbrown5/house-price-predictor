@@ -169,7 +169,6 @@ jobs:
           COMMIT_HASH=$(echo ${{ github.sha }} | cut -c1-7)
           IMAGE_NAME="docker.io/${{ vars.DOCKERHUB_USERNAME }}/house-price-model" 
           IMAGE_FULL_NAME="$IMAGE_NAME:$COMMIT_HASH" 
-          Buil
           docker build "${IMAGE_FULL_NAME}" -t -f Dockerfile .
           docker run -d -p 8000:8000 --name test-api "${IMAGE_FULL_NAME}" 
           for i in {1..10}; do
