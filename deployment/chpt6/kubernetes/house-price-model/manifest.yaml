@@ -15,7 +15,7 @@ metadata:
   name: house-price-model
   namespace: house-price-model
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: house-price-model
@@ -27,7 +27,7 @@ spec:
         app: house-price-model
     spec:
       containers:
-      - image: timbrown5/house-price-model:v0.3
+      - image: timbrown5/house-price-model:v0.2
         name: house-price-model
         ports:
         - containerPort: 8000

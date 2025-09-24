@@ -15,7 +15,7 @@ metadata:
   name: streamlit
   namespace: house-price-frontend
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: streamlit
@@ -27,7 +27,7 @@ spec:
         app: streamlit
     spec:
       containers:
-      - image: timbrown5/house-price-frontend:v0.3
+      - image: timbrown5/house-price-frontend:v0.2
         name: house-price-frontend
         ports:
         - containerPort: 8501
