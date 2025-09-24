@@ -190,10 +190,10 @@ jobs:
           docker push "${{ steps.build-image.outputs.IMAGE_NAME }}:latest"
 
       - name: Tag and push release image
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: ${{ github.event.release.tag_name != '' }}
         run: |
-          docker tag "${{ steps.build-image.outputs.IMAGE_FULL_NAME }}" "${{ steps.build-image.outputs.IMAGE_NAME }}:${{ github.ref }}"
-          docker push "${{ steps.build-image.outputs.IMAGE_NAME }}:${{ github.ref }}"
+          docker tag "${{ steps.build-image.outputs.IMAGE_FULL_NAME }}" "${{ steps.build-image.outputs.IMAGE_NAME }}:${{ github.event.release.tag_name }}"
+          docker push "${{ steps.build-image.outputs.IMAGE_NAME }}:${{ github.event.release.tag_name }}"
 
   build-and-publish-frontend:
     runs-on: ubuntu-latest
@@ -239,7 +239,7 @@ jobs:
           docker push "${{ steps.build-image.outputs.IMAGE_NAME }}:latest"
 
       - name: Tag and push release image
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: ${{ github.event.release.tag_name != '' }}
         run: |
-          docker tag "${{ steps.build-image.outputs.IMAGE_FULL_NAME }}" "${{ steps.build-image.outputs.IMAGE_NAME }}:${{ github.ref }}"
-          docker push "${{ steps.build-image.outputs.IMAGE_NAME }}:${{ github.ref }}"
+          docker tag "${{ steps.build-image.outputs.IMAGE_FULL_NAME }}" "${{ steps.build-image.outputs.IMAGE_NAME }}:${{ github.event.release.tag_name }}"
+          docker push "${{ steps.build-image.outputs.IMAGE_NAME }}:${{ github.event.release.tag_name }}"
