@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: null
+  name: house-price-model
+spec: {}
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: house-price-model
+  name: house-price-model
+  namespace: house-price-model
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: house-price-model
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: house-price-model
+    spec:
+      containers:
+      - image: timbrown5/house-price-model:v0.2
+        name: house-price-model
+        ports:
+        - containerPort: 8000
+        resources: {}
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: house-price-model
+  name: house-price-model
+  namespace: house-price-model
+spec:
+  ports:
+  - name: "8000"
+    port: 8000
+    targetPort: 8000
+    protocol: TCP
+    nodePort: 30100
+  selector:
+    app: house-price-model
+  type: NodePort
+status:
+  loadBalancer: {}

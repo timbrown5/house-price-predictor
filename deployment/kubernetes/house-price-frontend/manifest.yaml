@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: null
+  name: house-price-frontend
+spec: {}
+status: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: streamlit
+  name: streamlit
+  namespace: house-price-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: streamlit
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: streamlit
+    spec:
+      containers:
+      - image: timbrown5/house-price-frontend:v0.2
+        name: house-price-frontend
+        ports:
+        - containerPort: 8501
+        resources: {}
+        env:
+          - name: API_URL
+            value: http://house-price-model.house-price-model.svc.cluster.local:8000
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: streamlit
+  name: streamlit
+  namespace: house-price-frontend
+spec:
+  ports:
+  - name: "8501"
+    port: 8501
+    protocol: TCP
+    targetPort: 8501
+    nodePort: 30000
+  selector:
+    app: streamlit
+  type: NodePort
+status:
+  loadBalancer: {}
